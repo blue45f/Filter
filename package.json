@@ -1,0 +1,15 @@
+{
+  "name": "htmlFilter",
+  "version": "1.0.0",
+  "description": "htmlFilter",
+  "main": "htmlFilter.js",
+  "directories": {
+    "test": "test"
+  },
+  "devDependencies": {
+    "karma": "^0.13.11",
+    "karma-chrome-launcher": "^0.2.1",
+    "karma-qunit": "^0.1.5",
+    "qunitjs": "^1.19.0"
+  }
+}

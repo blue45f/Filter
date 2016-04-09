@@ -1,0 +1,37 @@
+<object type='application/x-shockwave-flash' id='DaumVodPlayer_v60ebX22ii8KKmtyKIIAtIy' width='640px' height='360px'
+        align='middle' classid='clsid:d27cdb6e-ae6d-11cf-96b8-444553540000'
+        codebase='http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=10,3,0,0'>
+    <param name='movie' value='http://videofarm.daum.net/controller/player/VodPlayer.swf'/>
+    <param name='allowScriptAccess' value='always'/>
+    <param name='allowFullScreen' value='true'/>
+    <param name='bgcolor' value='#000000'/>
+    <param name='wmode' value='window'/>
+    <param name='flashvars' value='vid=v60ebX22ii8KKmtyKIIAtIy&playLoc=undefined&alert=true'/>
+    <embed src='http://videofarm.daum.net/controller/player/VodPlayer.swf' width='640px' height='360px'
+           allowScriptAccess='always' type='application/x-shockwave-flash' allowFullScreen='true' bgcolor='#000000'
+           flashvars='vid=v60ebX22ii8KKmtyKIIAtIy&playLoc=undefined&alert=true'></embed>
+</object><br>
+<object
+    classid='clsid:d27cdb6e-ae6d-11cf-96b8-444553540000'
+    codebase='http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=10,0,0,0'
+    width='544' height='306' id='rmcPlayer_08889' align='middle'>
+
+    <param name='allowScriptAccess' value='always'/>
+    <param name='quality' value='high'/>
+    <param name='movie' value='http://serviceapi.rmcnmv.naver.com/flash/getCommonPlayer.nhn'/>
+    <param name='wmode' value='window'/>
+    <param name='allowFullScreen' value='true'/>
+    <param name='bgcolor' value='#000000'/>
+    <param name='FlashVars' value='vid=A3950F45225282665833761A7F4B90E38904&outKey=V12861707692766d50a94b0cca1ea5fc2fd002995e42d0af69bb3b0cca1ea5fc2fd00&wmode=transparent&jsCallable=false&isAutoPlay=true&controlBarMovable=true&api=http://serviceapi.rmcnmv.naver.com/flash&skinName=tvcast_white&isResizableCoverImage=true&beginTime=0&__flashID=rmcPlayer_08889&skinURL=http://serviceapi.rmcnmv.naver.com/flash/getCommonPlayerSkin.nhn?name=tvcast_white&'>
+    <embed
+            src='http://serviceapi.rmcnmv.naver.com/flash/getCommonPlayer.nhn'
+            width='544' height='306'
+            quality='high'
+            wmode='window'
+            id='rmcPlayer_rmcPlayer_7690'
+            name='rmcPlayer_rmcPlayer_7690'
+            FlashVars='vid=A3950F45225282665833761A7F4B90E38904&outKey=V12861707692766d50a94b0cca1ea5fc2fd002995e42d0af69bb3b0cca1ea5fc2fd00&wmode=transparent&jsCallable=false&isAutoPlay=true&controlBarMovable=true&api=http://serviceapi.rmcnmv.naver.com/flash&skinName=tvcast_white&isResizableCoverImage=true&beginTime=0&__flashID=rmcPlayer_08889&skinURL=http://serviceapi.rmcnmv.naver.com/flash/getCommonPlayerSkin.nhn?name=tvcast_white&'
+            bgColor='#000000' align='middle' allowScriptAccess='always' allowFullScreen='true'
+            type='application/x-shockwave-flash' pluginspage='http://www.macromedia.com/go/getflashplayer'/>
+</object>
+
